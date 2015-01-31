@@ -4,6 +4,12 @@ import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.SparkBase.setPort;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 import org.dozer.DozerBeanMapper;
 
 import com.knuthp.ns.trainstations.place.reisapi.RuterGateway;
@@ -27,6 +33,9 @@ public class App {
 
 		PlaceStorage placeStorage = new PlaceStorageMemory(dozerBeanMapper,
 				ruterGateway);
+		// PlaceStorage placeStorage = new PlaceStoragePostgre(dozerBeanMapper,
+		// ruterGateway, getConnection());
+
 		placeStorage.addPlace(NATIONALTEATRET);
 		placeStorage.addPlace(ASKER);
 
@@ -48,5 +57,17 @@ public class App {
 			Place place = placeStorage.addPlace("6049104");
 			return place;
 		}, new JsonTransformer());
+	}
+
+	private static Connection getConnection() throws URISyntaxException,
+			SQLException {
+		URI dbUri = new URI(System.getenv("DATABASE_URL"));
+
+		String username = dbUri.getUserInfo().split(":")[0];
+		String password = dbUri.getUserInfo().split(":")[1];
+		String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':'
+				+ dbUri.getPort() + dbUri.getPath();
+
+		return DriverManager.getConnection(dbUrl, username, password);
 	}
 }
