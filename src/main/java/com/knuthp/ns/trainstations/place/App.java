@@ -25,7 +25,7 @@ public class App {
 		DozerBeanMapper dozerBeanMapper = new DozerBeanMapper();
 		RuterGateway ruterGateway = new RuterGateway();
 
-		PlaceStorage placeStorage = new PlaceStorage(dozerBeanMapper,
+		PlaceStorage placeStorage = new PlaceStorageMemory(dozerBeanMapper,
 				ruterGateway);
 		placeStorage.addPlace(NATIONALTEATRET);
 		placeStorage.addPlace(ASKER);

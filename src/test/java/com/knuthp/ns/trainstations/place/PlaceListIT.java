@@ -45,7 +45,7 @@ public class PlaceListIT {
 		DozerBeanMapper dozerBeanMapper = new DozerBeanMapper();
 		RuterGateway ruterGateway = new RuterGateway();
 
-		placeList = new PlaceStorage(dozerBeanMapper, ruterGateway);
+		placeList = new PlaceStorageMemory(dozerBeanMapper, ruterGateway);
 	}
 
 	@Test
