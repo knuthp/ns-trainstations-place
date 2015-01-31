@@ -15,7 +15,8 @@ public class PlaceStorage {
 	private RuterGateway ruterGateway;
 	private List<String> placeIdList = new ArrayList<String>();
 
-	public PlaceStorage(DozerBeanMapper dozerBeanMapper, RuterGateway ruterGateway) {
+	public PlaceStorage(DozerBeanMapper dozerBeanMapper,
+			RuterGateway ruterGateway) {
 		this.dozerBeanMapper = dozerBeanMapper;
 		this.ruterGateway = ruterGateway;
 	}
@@ -34,14 +35,14 @@ public class PlaceStorage {
 		}
 	}
 
-	public void addPlace(String placeId) {
+	public Place addPlace(String placeId) {
 		placeIdList.add(placeId);
-		
+		return getPlaceFromId(placeId);
 	}
 
 	public List<Place> getPlaces() {
 		List<Place> placeList = new ArrayList<Place>();
-		for(String placeId : placeIdList) {
+		for (String placeId : placeIdList) {
 			placeList.add(getPlaceFromId(placeId));
 		}
 		return placeList;
