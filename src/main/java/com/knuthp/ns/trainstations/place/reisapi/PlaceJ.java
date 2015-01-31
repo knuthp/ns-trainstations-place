@@ -1,17 +1,21 @@
-package com.knuthp.ns.trainstations.place;
+package com.knuthp.ns.trainstations.place.reisapi;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.knuthp.ns.trainstations.place.UtmLocation;
 
-public class Place {
+public class PlaceJ {
+	@JsonProperty("ID")
 	private String id;
 	private String name;
 	private String shortName;
-	private UtmLocation location;
-	
+	private int X;
+	private int y;
+
 	public String getId() {
 		return id;
 	}
@@ -36,13 +40,29 @@ public class Place {
 		this.shortName = shortName;
 	}
 
+	public int getX() {
+		return X;
+	}
+
+	public void setX(int x) {
+		X = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
 
 	public UtmLocation getUtmLocation() {
-		return location;
+		return new UtmLocation(X, y);
 	}
 
 	public void setUtmLocation(UtmLocation utmLocation) {
-		this.location = utmLocation;
+		X = utmLocation.getX();
+		y = utmLocation.getY();
 	}
 
 	@Override

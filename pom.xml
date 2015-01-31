@@ -46,6 +46,13 @@
 			<version>3.3.2</version>
 		</dependency>
 
+		<!-- Object mapping -->
+		<dependency>
+			<groupId>net.sf.dozer</groupId>
+			<artifactId>dozer</artifactId>
+			<version>5.5.1</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>junit</groupId>
