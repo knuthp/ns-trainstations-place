@@ -30,7 +30,11 @@ public class App {
 		placeStorage.addPlace(NATIONALTEATRET);
 		placeStorage.addPlace(ASKER);
 		
+		get("/", (req, res) -> "api/place");
 		get("/hello", (req, res) -> "Hello World");
-		get("/api/place", (req, res) -> { return placeStorage.getPlaces(); }, new JsonTransformer());
+		get("/api/place", (req, res) 
+				-> { return placeStorage.getPlaces(); }, new JsonTransformer());
+		get("/api/place/:id", (req, res) 
+				-> { return placeStorage.getPlaceFromId(req.params(":id"));}, new JsonTransformer());
 	}
 }
