@@ -12,6 +12,10 @@ import java.sql.SQLException;
 
 import org.dozer.DozerBeanMapper;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.knuthp.ns.trainstations.place.reisapi.PlaceJ;
 import com.knuthp.ns.trainstations.place.reisapi.RuterGateway;
 
 /**
@@ -22,7 +26,7 @@ public class App {
 	private static final String ASKER = "2200500";
 	private static final String NATIONALTEATRET = "3010030";
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws URISyntaxException, SQLException {
 		String portEnv = System.getenv("PORT");
 		if (portEnv != null) {
 			setPort(Integer.parseInt(portEnv));
@@ -31,13 +35,13 @@ public class App {
 		DozerBeanMapper dozerBeanMapper = new DozerBeanMapper();
 		RuterGateway ruterGateway = new RuterGateway();
 
-		PlaceStorage placeStorage = new PlaceStorageMemory(dozerBeanMapper,
-				ruterGateway);
-		// PlaceStorage placeStorage = new PlaceStoragePostgre(dozerBeanMapper,
-		// ruterGateway, getConnection());
+//		PlaceStorage placeStorage = new PlaceStorageMemory(dozerBeanMapper,
+//				ruterGateway);
+		PlaceStorage placeStorage = new PlaceStoragePostgres(dozerBeanMapper,
+				ruterGateway, getConnection());
 
-		placeStorage.addPlace(NATIONALTEATRET);
-		placeStorage.addPlace(ASKER);
+//		placeStorage.addPlace(NATIONALTEATRET);
+//		placeStorage.addPlace(ASKER);
 
 		get("/", (req, res) -> "api/place");
 		get("/hello", (req, res) -> "Hello World");
@@ -54,7 +58,10 @@ public class App {
 
 		post("/api/place", (req, res) -> {
 			res.type("application/json");
-			Place place = placeStorage.addPlace("6049104");
+			ObjectMapper mapper = new ObjectMapper();
+			Place newPlace = mapper.readValue(req.body(),
+					Place.class);
+			Place place = placeStorage.addPlace(newPlace.getId());
 			return place;
 		}, new JsonTransformer());
 	}
