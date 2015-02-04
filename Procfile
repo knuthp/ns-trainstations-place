@@ -1,1 +1,1 @@
-web:    java -cp "target/dependency/*":target/classes com.knuthp.ns.trainstations.place.App
+web:    java -jar target/trainstations.place-0.0.1-SNAPSHOT.jar
