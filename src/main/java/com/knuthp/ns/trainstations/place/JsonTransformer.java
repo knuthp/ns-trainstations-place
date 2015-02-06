@@ -1,15 +1,22 @@
 package com.knuthp.ns.trainstations.place;
-import spark.ResponseTransformer;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.google.gson.Gson;
+import spark.ResponseTransformer; 
+
 
 public class JsonTransformer implements ResponseTransformer {
 
-    private Gson gson = new Gson();
 
-    @Override
+    private ObjectMapper mapper = new ObjectMapper();
+
+	@Override
     public String render(Object model) {
-        return gson.toJson(model);
+        try {
+			return mapper.writeValueAsString(model);
+		} catch (JsonProcessingException e) {
+			return "{}";
+		}
     }
 
 }
