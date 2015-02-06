@@ -10,23 +10,24 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import org.dozer.DozerBeanMapper;
+import java.util.HashMap;
+import java.util.Map;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
+import org.dozer.DozerBeanMapper;
+import spark.template.freemarker.FreeMarkerEngine;
+
+import spark.ModelAndView;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.knuthp.ns.trainstations.place.reisapi.PlaceJ;
 import com.knuthp.ns.trainstations.place.reisapi.RuterGateway;
 
 /**
- * Hello world!
  *
  */
 public class App {
-	private static final String ASKER = "2200500";
-	private static final String NATIONALTEATRET = "3010030";
 
-	public static void main(String[] args) throws URISyntaxException, SQLException {
+	public static void main(String[] args) throws URISyntaxException,
+			SQLException {
 		String portEnv = System.getenv("PORT");
 		if (portEnv != null) {
 			setPort(Integer.parseInt(portEnv));
@@ -35,15 +36,15 @@ public class App {
 		DozerBeanMapper dozerBeanMapper = new DozerBeanMapper();
 		RuterGateway ruterGateway = new RuterGateway();
 
-//		PlaceStorage placeStorage = new PlaceStorageMemory(dozerBeanMapper,
-//				ruterGateway);
 		PlaceStorage placeStorage = new PlaceStoragePostgres(dozerBeanMapper,
 				ruterGateway, getConnection());
 
-//		placeStorage.addPlace(NATIONALTEATRET);
-//		placeStorage.addPlace(ASKER);
+		get("/", (req, res) -> {
+			Map<String, Object> attributes = new HashMap<String, Object>();
+			attributes.put("places", placeStorage.getPlaces());
+			return new ModelAndView(attributes, "home.ftl");
 
-		get("/", (req, res) -> "api/place");
+		}, new FreeMarkerEngine());
 		get("/hello", (req, res) -> "Hello World");
 
 		get("/api/place", "application/json", (req, res) -> {
@@ -59,8 +60,7 @@ public class App {
 		post("/api/place", (req, res) -> {
 			res.type("application/json");
 			ObjectMapper mapper = new ObjectMapper();
-			Place newPlace = mapper.readValue(req.body(),
-					Place.class);
+			Place newPlace = mapper.readValue(req.body(), Place.class);
 			Place place = placeStorage.addPlace(newPlace.getId());
 			return place;
 		}, new JsonTransformer());
