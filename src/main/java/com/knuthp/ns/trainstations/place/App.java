@@ -57,13 +57,19 @@ public class App {
 			return placeStorage.getPlaceFromId(req.params(":id"));
 		}, new JsonTransformer());
 
-		post("/api/place", (req, res) -> {
+		post("/api/place", "application/json", (req, res) -> {
 			res.type("application/json");
 			ObjectMapper mapper = new ObjectMapper();
 			Place newPlace = mapper.readValue(req.body(), Place.class);
 			Place place = placeStorage.addPlace(newPlace.getId());
 			return place;
 		}, new JsonTransformer());
+		post("api/place", "application/x-www-form-urlencoded", (req, res) -> {
+			String id = req.queryParams("id");
+			res.type("application/json");
+			Place place = placeStorage.addPlace(id);
+			return place;
+		});
 	}
 
 	private static Connection getConnection() throws URISyntaxException,

@@ -14,9 +14,15 @@
 
 <h2>Status</h2>
 <ul>
-    <#list places as place>
-      <li>${place_index + 1}. ${place.name} | ${place.shortName}</li>
-    </#list>
-  </ul>
+<#list places as place>
+  <li>${place_index + 1}. ${place.name} | ${place.shortName}</li>
+</#list>
+</ul>
+
+<h2>Add new</h2>
+<form id="place-create-form" method="POST" action="api/place">
+  Id: <input type="text" name="id"/>
+  <input type='submit' value='Publish' form='place-create-form' />
+</form>
 </body>
 </html>
