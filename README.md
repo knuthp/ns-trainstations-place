@@ -13,6 +13,7 @@ This microservice is an adapter for places (Station location). It has a list of 
   2. Apache HttpClient as REST client
   3. Dozer for class mapping.
   4. Postgres database to store list of places
+  5. Freemarker for HTML templating
 5. Scaling:
   1. Adding dynos (state is shared between instances in Postgres database)
 

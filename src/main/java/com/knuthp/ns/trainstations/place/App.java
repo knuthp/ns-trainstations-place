@@ -1,5 +1,6 @@
 package com.knuthp.ns.trainstations.place;
 
+import static spark.Spark.delete;
 import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.SparkBase.port;
@@ -68,6 +69,10 @@ public class App {
 			res.type("application/json");
 			Place place = placeStorage.addPlace(id);
 			return place;
+		});
+		delete("/api/place/:id", (req, res) -> {
+			placeStorage.deletePlace(req.params(":id"));
+			return "";
 		});
 	}
 

@@ -51,4 +51,10 @@ public class PlaceStorageMemory implements PlaceStorage {
 		return placeList;
 	}
 
+	@Override
+	public void deletePlace(String deleteId) {
+		placeIdList.remove(deleteId);
+
+	}
+
 }

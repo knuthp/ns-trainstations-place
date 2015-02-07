@@ -10,4 +10,6 @@ public interface PlaceStorage {
 
 	public abstract List<Place> getPlaces();
 
+	public abstract void deletePlace(String placeId);
+
 }
