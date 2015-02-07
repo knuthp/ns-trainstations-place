@@ -2,21 +2,20 @@ package com.knuthp.ns.trainstations.place;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
-import static spark.SparkBase.setPort;
+import static spark.SparkBase.port;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
 import java.util.HashMap;
 import java.util.Map;
 
 import org.dozer.DozerBeanMapper;
-import spark.template.freemarker.FreeMarkerEngine;
 
 import spark.ModelAndView;
+import spark.template.freemarker.FreeMarkerEngine;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.knuthp.ns.trainstations.place.reisapi.RuterGateway;
@@ -30,7 +29,7 @@ public class App {
 			SQLException {
 		String portEnv = System.getenv("PORT");
 		if (portEnv != null) {
-			setPort(Integer.parseInt(portEnv));
+			port(Integer.parseInt(portEnv));
 		}
 
 		DozerBeanMapper dozerBeanMapper = new DozerBeanMapper();
