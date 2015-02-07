@@ -92,9 +92,7 @@ public class PlaceStoragePostgres implements PlaceStorage {
 	@Override
 	public void deletePlace(String placeId) {
 		try {
-			String sql = "DELETE FROM places WHERE 'placeId' = '" + placeId
-					+ "'";
-			LOG.info("SQL: " + sql);
+			String sql = "DELETE FROM places WHERE placeId = '" + placeId + "'";
 			Statement stmt = connection.createStatement();
 			stmt.executeUpdate(sql);
 		} catch (SQLException e) {
