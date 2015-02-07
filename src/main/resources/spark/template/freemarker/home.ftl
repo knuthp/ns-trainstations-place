@@ -3,23 +3,23 @@
 <head>
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	
-<script>
-$(document).ready(function(){
-    $('input[type=button]').click(function() {
-       var placeId = $(this).data('id');
 
-       $.ajax({
-    	    url: '/api/place/' + placeId,
-    	    type: 'DELETE',
-    	    success: function(result) {
-    	        console.log('Success delete');
-    	        location.reload();
-    	    }
-    	});
-    });
-});
-</script>	
+<script>
+	$(document).ready(function() {
+		$('input[type=button]').click(function() {
+			var placeId = $(this).data('id');
+
+			$.ajax({
+				url : '/api/place/' + placeId,
+				type : 'DELETE',
+				success : function(result) {
+					console.log('Success delete');
+					location.reload();
+				}
+			});
+		});
+	});
+</script>
 <title>Places landing page</title>
 </head>
 <body>
@@ -54,18 +54,27 @@ $(document).ready(function(){
 	</table>
 
 	<h2>Status</h2>
-	<ul>
+	<table>
+		<tr>
+			<th>#</th>
+			<th>Id</th>
+			<th>Name</th>
+			<th>Short name</th>
+		</tr>
 		<#list places as place>
-		<li>${place_index + 1}. ${place.id} | ${place.name} | ${place.shortName}
-		<input type="button" value="Delete" data-id="${place.id}"/></li>
+		<tr>
+			<td>${place_index + 1}.</td>
+			<td>${place.id}</td>
+			<td>${place.name}</td>
+			<td><input type="button" value="Delete" data-id="${place.id}"</td>
+		</tr>
 		</#list>
-	</ul>
-
+	</table>
 	<h2>Add new</h2>
 	<form id="place-create-form" method="POST" action="api/place">
 		Id: <input type="text" name="id" /> <input type='submit'
-			value='Publish' form='place-create-form' />
+			value='Add' form='place-create-form' />
 	</form>
-	
+
 </body>
 </html>
