@@ -28,6 +28,9 @@ public class PlaceStoragePostgres implements PlaceStorage {
 		this.ruterGateway = ruterGateway;
 		this.connection = connection;
 		try {
+			Statement stmt = connection.createStatement();
+			stmt.execute("CREATE TABLE IF NOT EXISTS places (placeId varchar(255), PRIMARY KEY (placeId))");
+
 			Statement createStatement = connection.createStatement();
 			String sql = "SELECT * FROM places";
 			ResultSet executeQuery = createStatement.executeQuery(sql);
@@ -75,9 +78,10 @@ public class PlaceStoragePostgres implements PlaceStorage {
 			String sql = "SELECT * FROM places";
 			Statement stmt = connection.createStatement();
 			ResultSet executeQuery = stmt.executeQuery(sql);
-			
+
 			while (executeQuery.next()) {
-				placeList.add(getPlaceFromId(executeQuery.getString("placeId")));
+				placeList
+						.add(getPlaceFromId(executeQuery.getString("placeId")));
 			}
 		} catch (SQLException e) {
 			LOG.error("Could not get placeList from db", e);
